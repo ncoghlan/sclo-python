@@ -14,3 +14,7 @@
 %global python3_version %@scl@python3_version
 %global python_version %@scl@python3_version
 }
+
+%@scl@_python_provides /usr/lib/rpm/pythondeps-scl-35.sh --provides %{?scl:@vendorscl@-}
+%@scl@_python_requires /usr/lib/rpm/pythondeps-scl-35.sh --requires %{?scl:@vendorscl@-}
+
