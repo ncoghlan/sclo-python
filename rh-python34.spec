@@ -30,6 +30,7 @@ Source0: macros.additional.%{scl}
 Source1: README
 Source2: LICENSE
 Source3: pythondeps-scl-35.sh
+Source4: pkgconfigdeps-scl-35.sh
 BuildRequires: help2man
 # workaround for https://bugzilla.redhat.com/show_bug.cgi?id=857354
 BuildRequires: iso-codes
@@ -113,6 +114,7 @@ EOF
 
 mkdir -p %{buildroot}%{_root_prefix}/lib/rpm
 cp -a %{SOURCE3} %{buildroot}%{_root_prefix}/lib/rpm
+cp -a %{SOURCE4} %{buildroot}%{_root_prefix}/lib/rpm
 
 # install generated man page
 mkdir -p %{buildroot}%{_mandir}/man7/
@@ -128,6 +130,7 @@ install -m 644 %{scl_name}.7 %{buildroot}%{_mandir}/man7/%{scl_name}.7
 %files build
 %{_root_sysconfdir}/rpm/macros.%{scl}-config
 %{_root_prefix}/lib/rpm/pythondeps-scl-35.sh
+%{_root_prefix}/lib/rpm/pkgconfigdeps-scl-35.sh
 
 %files scldevel
 %{_root_sysconfdir}/rpm/macros.%{scl_name_base}-scldevel

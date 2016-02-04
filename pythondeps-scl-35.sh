@@ -21,10 +21,13 @@ case $1 in
     else
         grep "/opt/.*/usr/bin/python.\..$" \
             | sed -e "s|.*/usr/bin/python\(.\..\)|$1python(abi) = \1|"
+    fi
+
+    if [ "x$1" != "x" ]; then
         grep "pkgconfig(.*$" \
             | sed -e "s|pkgconfig(|$1pkgconfig(|"
     fi
-    ;;
+   ;;
 -R|--requires)
     shift
     # Match buildroot paths of the form
