@@ -3,14 +3,10 @@
 # the name is intentionally hardcoded to always provide the same name
 %@scl@_python_provides /usr/lib/rpm/pythondeps-scl-35.sh --provides %{?scl:@vendorscl@-}
 %@scl@_python_requires /usr/lib/rpm/pythondeps-scl-35.sh --requires %{?scl:@vendorscl@-}
-%@scl@_pkgconfig_provides  /usr/lib/rpm/pkgconfigdeps-scl-35.sh --provides %{?scl:@vendorscl@-}
-%@scl@_pkgconfig_requires  /usr/lib/rpm/pkgconfigdeps-scl-35.sh --requires %{?scl:@vendorscl@-}
 
 %scl_package_override() %{expand:%{?@scl@_os_install_post:%global __os_install_post %@scl@_os_install_post}
 %global __python_requires %@scl@_python_requires
 %global __python_provides %@scl@_python_provides
-%global __pkgconfig_provides %@scl@_pkgconfig_provides
-%global __pkgconfig_requires %@scl@_pkgconfig_provides
 # macros commonly used in specfiles
 %global __python3 %@scl@__python3
 %global __python %@scl@__python3
@@ -20,5 +16,6 @@
 %global python_sitearch %@scl@python3_sitearch
 %global python3_version %@scl@python3_version
 %global python_version %@scl@python3_version
+%global scl_no_vendor @scl@
 }
 
