@@ -24,7 +24,7 @@
 Summary: Package that installs %scl
 Name: %scl_name
 Version: 2.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+
 Source0: macros.additional.%{scl}
 Source1: README
@@ -36,6 +36,9 @@ BuildRequires: iso-codes
 BuildRequires: scl-utils-build
 %if 0%{?install_scl}
 Requires: %{scl_prefix}python
+Requires: %{scl_prefix}python-pip
+Requires: %{scl_prefix}python-setuptools
+Requires: %{scl_prefix}python-virtualenv
 %endif
 
 %description
@@ -84,6 +87,12 @@ chmod a+x h2m_helper
 
 # generate the man page
 help2man -N --section 7 ./h2m_helper -o %{scl_name}.7
+# Fix single quotes in man page. See RHBZ#1219531
+#
+# http://lists.gnu.org/archive/html/groff/2008-06/msg00001.html suggests that
+# using "'" for quotes is correct, but the current implementation of man in 6
+# mangles it when rendering.
+sed -i "s/'/\\\\(aq/g" %{scl_name}.7
 
 %install
 %scl_install
@@ -93,8 +102,7 @@ export PATH=%{_bindir}\${PATH:+:\${PATH}}
 export LD_LIBRARY_PATH=%{_libdir}\${LD_LIBRARY_PATH:+:\${LD_LIBRARY_PATH}}
 export MANPATH=%{_mandir}:\$MANPATH
 export PKG_CONFIG_PATH=%{_libdir}/pkgconfig\${PKG_CONFIG_PATH:+:\${PKG_CONFIG_PATH}}
-# For SystemTap.
-export XDG_DATA_DIRS=%{_datadir}\${XDG_DATA_DIRS:+:\${XDG_DATA_DIRS}}
+export XDG_DATA_DIRS="%{_datadir}:\${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
 EOF
 
 # Add the aditional macros to macros.%%{scl}-config
@@ -133,5 +141,10 @@ install -m 644 %{scl_name}.7 %{buildroot}%{_mandir}/man7/%{scl_name}.7
 %{_root_sysconfdir}/rpm/macros.%{scl_name_base}-scldevel
 
 %changelog
+* Tue Feb 16 2016 Robert Kuska <rkuska@redhat.com> - 2.0-2
+- Properly define XDG_DATA_DIRS variable to avoid breaking applications (rhbz#1266529)
+- Change packages installed by default with collection (rhbz#1229582)
+- Escape apostrophs in metapackage manual page (rbhz#1219528)
+
 * Tue Nov 24 2015 Robert Kuska <rkuska@redhat.com> - 2.0-1
 - Create python35 metapackage
