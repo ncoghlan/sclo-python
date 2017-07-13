@@ -3,6 +3,10 @@ Rolling Software Collection for Python that tracks the latest upstream stable re
 
 Current status: working through getting the new community SCL bootstrapped in the CentOS build infrastructure
 
+Branches:
+
+- EL7: https://github.com/ncoghlan/sclo-python/tree/sig-sclo7-sclo-python
+
 Version: Python 3.5.3 (bootstrapping in progress)
 
 Planned updates:
