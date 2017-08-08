@@ -1,7 +1,6 @@
-%global scl_name_prefix rh-
+%global scl_name_prefix sclo-
 %global scl_name_base python
-%global scl_name_version 35
-%global scl %{scl_name_prefix}%{scl_name_base}%{scl_name_version}
+%global scl %{scl_name_prefix}%{scl_name_base}
 
 ## General notes about python33 SCL packaging
 # - the names of packages are NOT prefixed with 'python3-' (e.g. are the same as in Fedora)
@@ -16,26 +15,26 @@
 %scl_package %scl
 %global _turn_off_bytecompile 1
 
-%global install_scl 1
+%global install_scl 0
 
 # do not produce empty debuginfo package
 %global debug_package %{nil}
 
 Summary: Package that installs %scl
 Name: %scl_name
-Version: 2.0
-Release: 2%{?dist}
+Version: 3.5.1
+Release: 1%{?dist}
 License: GPLv2+
 Source0: macros.additional.%{scl}
 Source1: README
 Source2: LICENSE
-Source3: pythondeps-scl-35.sh
+Source3: pythondeps-sclo.sh
 BuildRequires: help2man
 # workaround for https://bugzilla.redhat.com/show_bug.cgi?id=857354
 BuildRequires: iso-codes
 BuildRequires: scl-utils-build
 %if 0%{?install_scl}
-Requires: %{scl_prefix}python
+Requires: %{scl_prefix}python >= %{version}
 Requires: %{scl_prefix}python-pip
 Requires: %{scl_prefix}python-setuptools
 Requires: %{scl_prefix}python-virtualenv
@@ -107,10 +106,10 @@ EOF
 
 # Add the aditional macros to macros.%%{scl}-config
 cat %{SOURCE0} >> %{buildroot}%{_root_sysconfdir}/rpm/macros.%{scl}-config
-# instead of replacing @scl@ with %{scl} macro we replace it with scl_name_base and scl_name_version
-# because scl macro contains vendor prefix rh- and this leads to wrong macro names 
-# (macro can't contain -) and erros like %rh has illegal name
-sed -i 's|@scl@|%{scl_name_base}%{scl_name_version}|g' %{buildroot}%{_root_sysconfdir}/rpm/macros.%{scl}-config
+# instead of replacing @scl@ with %{scl} macro we replace it with scl_name_base
+# because scl macro contains vendor prefix sclo- and this leads to wrong macro names
+# (macro can't contain -) and errors like %sclo has illegal name
+sed -i 's|@scl@|%{scl_name_base}|g' %{buildroot}%{_root_sysconfdir}/rpm/macros.%{scl}-config
 sed -i 's|@vendorscl@|%{scl}|g' %{buildroot}%{_root_sysconfdir}/rpm/macros.%{scl}-config
 
 # Create the scldevel subpackage macros
@@ -135,12 +134,16 @@ install -m 644 %{scl_name}.7 %{buildroot}%{_mandir}/man7/%{scl_name}.7
 
 %files build
 %{_root_sysconfdir}/rpm/macros.%{scl}-config
-%{_root_prefix}/lib/rpm/pythondeps-scl-35.sh
+%{_root_prefix}/lib/rpm/pythondeps-sclo.sh
 
 %files scldevel
 %{_root_sysconfdir}/rpm/macros.%{scl_name_base}-scldevel
 
 %changelog
+* Tue Aug 08 2017 Nick Coghlan <ncoghlan@redhat.com> - 3.5.1-1
+- Create the first rolling release community SCL
+- Switch to version numbering based on CPython maintenance releases
+
 * Tue Feb 16 2016 Robert Kuska <rkuska@redhat.com> - 2.0-2
 - Properly define XDG_DATA_DIRS variable to avoid breaking applications (rhbz#1266529)
 - Change packages installed by default with collection (rhbz#1229582)
