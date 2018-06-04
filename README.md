@@ -1,6 +1,4 @@
-.. image:: http://unmaintained.tech/badge.svg
-   :target: http://unmaintained.tech/
-   :alt: No Maintenance Intended 
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
 
 I'm no longer using SCLs for anything, so this project isn't being actively developed.
 
