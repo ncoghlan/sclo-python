@@ -1,3 +1,9 @@
+.. image:: http://unmaintained.tech/badge.svg
+   :target: http://unmaintained.tech/
+   :alt: No Maintenance Intended 
+
+I'm no longer using SCLs for anything, so this project isn't being actively developed.
+
 # sclo-python
 Rolling Software Collection for Python that tracks the latest upstream stable releases.
 
